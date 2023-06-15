@@ -25,7 +25,7 @@ function AuthProvider({ children }) {
       if (error.response) {
         alert(error.response.data.message);
       } else {
-        alert("Não foi possível entrar.");
+        alert("Não foi possível acessar o sistema com o usuário informado!");
       }
 
       setLoading(false);
@@ -39,14 +39,14 @@ function AuthProvider({ children }) {
     setData({});
   }
 
-  async function updateProfile({ user, avatarFile }) {
+  async function updateProfileUser({ user, avatarFile }) {
     try {
       if (avatarFile) {
         setLoading(true);
-        const fileUploadForm = new FormData();
-        fileUploadForm.append("avatar", avatarFile);
+        const fileProfileUploadForm = new FormData();
+        fileProfileUploadForm.append("avatar", avatarFile);
 
-        const response = await api.patch("/users/avatar", fileUploadForm);
+        const response = await api.patch("/users/avatar", fileProfileUploadForm);
         user.avatar = response.data.avatar;
       }
 
@@ -54,14 +54,14 @@ function AuthProvider({ children }) {
       localStorage.setItem("@foodexplorer:user", JSON.stringify(user));
 
       setData({ user, token: data.token });
-      alert("Perfil atualizado com sucesso!");
+      alert("Avatar do perfil foi alterado com sucesso!");
 
       setLoading(false);
     } catch (error) {
       if (error.response) {
         alert(error.response.data.message);
       } else {
-        alert("Não foi possível atualizar o perfil.");
+        alert("Infelizmente não foi possível realizar alteração do avatar no perfil :(");
       }
 
       setLoading(false);
@@ -89,7 +89,7 @@ function AuthProvider({ children }) {
         signOut,
         loading,
         setLoading,
-        updateProfile,
+        updateProfileUser,
         user: data.user,
       }}
     >

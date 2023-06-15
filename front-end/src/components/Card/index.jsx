@@ -1,5 +1,5 @@
 //====import styles====//
-import { Container, Content, CardBuy } from "./styles.js";
+import { Container, Content, CardBuy } from "./styled.js";
 
 import { Button } from "../Button";
 import { ButtonText } from "../ButtonText";
@@ -31,17 +31,17 @@ export function Card({ data, ...rest }) {
 
   const [amount, setAmount] = useState(1);
 
-  const increase = () => {
+  const addValue = () => {
     if (amount > 19) {
-      alert("Erro: A quantidade máxima é de 20 unidades");
+      alert("Você atingiu o número máximo armazenado no carrinho de 20 itens!");
       return;
     }
     setAmount((count) => count + 1);
   };
 
-  const decrease = () => {
+  const removeValue = () => {
     if (amount < 2) {
-      alert("Erro: A quantidade mínima é 1 unidade");
+      alert("Necessário atingir no mínimo 1 item no carrinho!");
       return;
     }
     setAmount((count) => count - 1);
@@ -52,7 +52,7 @@ export function Card({ data, ...rest }) {
       {user.isAdmin ? (
         <Content>
           <div className="container">
-            <img src={imageURL} alt="Imagem do prato" />
+            <img src={imageURL} alt="Imagem do item" />
             <Link to={`/details/${data.id}`}>
               <h3 className="product-title-food">
                 {data.title}
@@ -80,7 +80,7 @@ export function Card({ data, ...rest }) {
           </button>
 
           <div className="container">
-            <img src={imageURL} alt="Imagem do prato" />
+            <img src={imageURL} alt="Imagem do item" />
             <Link to={`/details/${data.id}`}>
               <h3 className="product-title-food">
                 {data.title}
@@ -92,9 +92,11 @@ export function Card({ data, ...rest }) {
 
             <CardBuy>
               <div className="counter">
-                <ButtonText icon={FiMinus} onClick={decrease} />
+                <ButtonText icon={FiMinus} onClick={removeValue} />
+
                 <span>{amount.toString().padStart(2, "0")}</span>
-                <ButtonText icon={FiPlus} onClick={increase} />
+
+                <ButtonText icon={FiPlus} onClick={addValue} />
               </div>
 
               <Button

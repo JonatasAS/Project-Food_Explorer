@@ -1,4 +1,4 @@
-import { Container } from "./styles";
+import { Container } from "./styled";
 
 export function Button({ icon: Icon, title, ...rest }) {
   return (
