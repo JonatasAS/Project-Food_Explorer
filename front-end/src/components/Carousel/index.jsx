@@ -19,19 +19,19 @@ export function Carousel({ children }) {
           breakpoints={{
             "@0.00": {
               slidesPerView: 1,
-              spaceBetween: 10,
+              spaceBetween: 11,
             },
             "@0.75": {
               slidesPerView: 2,
-              spaceBetween: 20,
+              spaceBetween: 19,
             },
             "@1.00": {
               slidesPerView: 3,
-              spaceBetween: 40,
+              spaceBetween: 37,
             },
             "@1.20": {
               slidesPerView: 4,
-              spaceBetween: 130,
+              spaceBetween: 134,
             },
           }}
           navigation={true}
