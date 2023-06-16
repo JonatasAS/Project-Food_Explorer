@@ -10,6 +10,7 @@ export default {
 
     CYAN_BLUE: "#0099ff",
     CYAN: "#82F3FF",
+    CYAN_100: "#193746",
     CYAN_200: "#001119",
     CYAN_300: "#192227",
     CYAN_400: "#091E26",

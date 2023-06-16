@@ -36,7 +36,7 @@ export function Carousel({ children }) {
           }}
           navigation={true}
           modules={[Navigation]}
-          className="mySwiper"
+          className="slidesWithSwiper"
         >
           <SwiperSlide>{children}</SwiperSlide>
         </Swiper>

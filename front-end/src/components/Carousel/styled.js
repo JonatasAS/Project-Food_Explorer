@@ -2,16 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.footer`
     width: 100%;
-    height: 51.2rem;
+    height: 51rem;
     align-items: center;
-    margin-bottom: 6.2rem;
+    margin-bottom: 6rem;
 
     @keyframes scale-up-center {
         0% {
             transform: scale(1);
         }
         100% {
-            transform: scale(1.2);
+            transform: scale(1.3);
         }
     }
 `;
@@ -35,14 +35,14 @@ export const Content = styled.div`
         -ms-flex-align: center;
         -webkit-align-items: center;
         align-items: center;
-        gap: 3.2rem;
+        gap: 3rem;
     }
     
     .swiper-button-next,
     .swiper-button-prev {
         width: 9rem;
-        height: 50.9rem;
-        margin: -25.6rem -1rem;
+        height: 50rem;
+        margin: -24rem -1rem;
         
         color: ${({ theme }) => theme.COLORS.CYAN_BLUE};
         font-weight: bolder;
@@ -51,7 +51,7 @@ export const Content = styled.div`
 
     .swiper-button-next:hover,
     .swiper-button-prev:hover {
-	    animation: scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+	    animation: scale-up-center 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
     }
 
     .swiper-button-prev {
