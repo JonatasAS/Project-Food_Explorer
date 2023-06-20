@@ -16,7 +16,7 @@ import cart from '../../assets/cart.svg';
 import { useCartBuy } from '../../hooks/cart';
 import { useAuth } from "../../hooks/auth";
 
-export function PaymentCard() {
+export function PayCard() {
   const { handleEraseCart } = useCartBuy();
   const { user } = useAuth()
 
