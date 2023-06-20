@@ -8,7 +8,6 @@ import {
   ButtonMenu,
   Profile,
 } from "./styles";
-import { useAuth } from "../../hooks/auth";
 
 import { Link } from "react-router-dom";
 
@@ -23,6 +22,7 @@ import { BsReceipt } from "react-icons/bs";
 
 import logoFoodExplorer from "../../assets/logo.svg";
 
+import { useAuth } from "../../hooks/auth";
 import { useCart } from "../../hooks/cart";
 
 export function Header({ search, filteringYourFavorites }) {
@@ -64,7 +64,7 @@ export function Header({ search, filteringYourFavorites }) {
               <FiSearch size={26} />
               <input
                 type="text"
-                placeholder="Procure pelas opções de pratos no cardapio"
+                placeholder="Procure por mais opções de pratos no cardapio"
                 onChange={(e) => {
                   search(e.target.value);
                 }}

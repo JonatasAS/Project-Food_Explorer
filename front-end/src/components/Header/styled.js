@@ -8,13 +8,13 @@ export const Container = styled.header`
     
     position: sticky;
     top: 0;
-    z-index: 999;
+    z-index: 9999;
     
     justify-content: center;
     background-color: ${({ theme }) => theme.COLORS.BACKGROUND_600};
 
-    -webkit-box-shadow: 0px 0px 10px 5px ${({ theme }) => theme.COLORS.CYAN_100}; 
-    box-shadow: 0px 0px 10px 5px ${({ theme }) => theme.COLORS.CYAN_100};
+    -webkit-box-shadow: 0px 0px 10px 6px ${({ theme }) => theme.COLORS.CYAN_100}; 
+    box-shadow: 0px 0px 10px 6px ${({ theme }) => theme.COLORS.CYAN_100};
 
     @keyframes scale-up-center {
         0% {
@@ -54,11 +54,11 @@ export const Content = styled.div`
     align-items: center;
     white-space: nowrap;
     
-    width: 121.2rem;
+    width: 121rem;
     height: 10rem;
     
     padding: 0 4rem;
-    gap: 3rem;
+    gap: 3.1rem;
 
     .nav-menu {
         display: flex;
@@ -107,8 +107,7 @@ export const Content = styled.div`
             transition: 0.4s;
             
             background-color: ${({ theme }) => theme.COLORS.BLUE_200};
-            box-shadow:
-                0 10px 27px rgba(0, 0, 0, 0.10);
+            box-shadow: 0 10px 27px rgba(0, 0, 0, 0.10);
         }
 
         .nav-menu.active {
@@ -116,7 +115,7 @@ export const Content = styled.div`
         }
 
         .nav-item {
-            margin: 2.5rem 0;
+            margin: 2.6rem 0;
         }
 
         .hamburger {
@@ -148,9 +147,9 @@ export const LogoFood = styled.div`
         animation: waiting-in-expansion 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
     }
     
-    .logo img:hover {
-        -webkit-animation: rotate 0.7s ease-in-out both;
-        animation: rotate-center 0.7s ease-in-out both;
+    .logoStamp img:hover {
+        -webkit-animation: rotate 0.8s ease-in-out both;
+        animation: rotate-center 0.8s ease-in-out both;
     }
     
     a {
