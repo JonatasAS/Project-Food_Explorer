@@ -20,7 +20,6 @@ export function OrderCard({ data }) {
             onClick={() => handleRemoveFoodFromCart(data.id)}
           />
         </div>
-
       </div>
     </Container>
   )
