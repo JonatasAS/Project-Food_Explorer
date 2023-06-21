@@ -27,7 +27,7 @@ export function PageError() {
         <img src={imageError401} alt="Imagem de erro 401: Acesso não autorizado" />
 
         <div>
-          <h3>Infelizmente você não possuiu um acesso autoriazado para realizar este acesso</h3>
+          <h3>Infelizmente você não possuiu um acesso autoriazado</h3>
         </div>
       </div>
     </Container>
