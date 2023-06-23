@@ -164,20 +164,20 @@ export function PayCard() {
             <div className="clk">
               <img src={clock} alt="Imagem do QRCode" />
             </div>
-            <p>Aguarde: Estamos processando o seu pagamento</p>
+            <p> processando o seu pagamento</p>
           </div>
         }
 
         {isApprovedActive &&
           <div className="approved" id="approved">
             <img src={checkCircle} alt="Imagem de pagamento aprovado" />
-            <p>Oba! Pagamento aprovado! Em breve faremos a entrega!</p>
+            <p>Pagamento aprovado</p>
           </div>
         }
 
         <div className="delivered hide" id="delivered">
           <img src={knife} alt="Imagem de uma faca e um garfo" />
-          <p>O pedido foi entregue!</p>
+          <p>entregue</p>
         </div>
 
       </Content>
