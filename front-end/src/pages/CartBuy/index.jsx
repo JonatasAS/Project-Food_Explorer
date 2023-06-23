@@ -25,48 +25,47 @@ import checkCircle from '../../assets/CheckCircle.svg';
 export function CartBuy() {
   const { user } = useAuth()
 
-  const { CartBuy, total, handleEraseCart } = useCartBuy();
+  const { cartBuy, total, handleEraseCart } = useCartBuy();
 
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  function handleCreatedCart(cart) {
+  function handleCreatedCartBuy(cartBuy) {
     return {
       orderStatus: '🔴 Pendente',
       paymentMethod: pixActive ? 'pix' : 'creditCard',
       totalPrice: total,
-      cart: cart.map(item => (
+      cartBuy: cartBuy.map(item => (
         {
           id: item.id,
           title: item.title,
-          quantity: item.quantity
+          amount: item.amount
         }
       ))
     }
   }
 
-  // Payment Finalization Function
-  async function handleFinishPayment(cart) {
+  async function handleCartPayment(cartBuy) {
 
-    const newCart = handleCreatedCart(cart)
+    const newCart = handleCreatedCartBuy(cartBuy)
 
-    if (cart.length < 1) {
+    if (cartBuy.length < 1) {
       navigate(-1);
-      return alert("Oops! Seu carrinho está vazio. Adicione algo antes de tentar pagar.");
+      return alert("Carrinho vazio");
     }
 
     if (!pixActive && num.length < 16) {
-      alert("Erro: Número de cartão incompleto!");
+      alert("O número do cartão não esta completo, complete com um número valido");
       return;
     }
 
     if (!pixActive && date.length < 4) {
-      return alert("Erro: Validade do cartão incompleta!");
+      return alert("A validade do cartão não esta completa, complete com uma data valida");
     }
 
     if (!pixActive && cvc.length < 3) {
-      return alert("Erro: CVC do cartão incompleto!");
+      return alert("O CVC do cartão não esta completo, complete com uma numeração valida");
     }
 
     setLoading(true);
@@ -75,40 +74,36 @@ export function CartBuy() {
       .then(() => {
         disableButton();
         setTimeout(() => {
-          // Elements that will be changed
-          alert("Pedido cadastrado com sucesso!");
+          alert("Seu pedido foi cadastrado");
           navigate(-1);
-          handleResetCart();
+          handleEraseCart();
 
-          // Delay
         }, 7000);
       })
       .catch(error => {
         if (error.response) {
           alert(error.response.data.message);
         } else {
-          alert("Não foi possível cadastrar");
+          alert("Algo aconteceu não foi posssível cadastrar");
         }
       });
 
     setLoading(false);
   }
 
-  // CreditCard Validations
   const [num, setNum] = useState('');
   const [cvc, setCvc] = useState('');
 
-  const handleNumChange = event => {
+  const handleModificationNumber = event => {
     const limit = 16;
     setNum(event.target.value.slice(0, limit));
   };
 
-  const handleCvcChange = event => {
+  const handleModificationCvc = event => {
     const limit = 3;
     setCvc(event.target.value.slice(0, limit));
   };
 
-  // Payment Buttons and Change Screens
   const [isPixVisible, setIsPixVisible] = useState(false);
   const [isCreditVisible, setIsCreditVisible] = useState(false);
   const [isCartVisible, setIsCartVisible] = useState(true);
@@ -133,7 +128,6 @@ export function CartBuy() {
     setPixActive(false);
   };
 
-  // Disable Buttons and Change Screens
   const [disabledButton, setDisabledButton] = useState(false);
 
   const disableButton = () => {
@@ -145,168 +139,155 @@ export function CartBuy() {
     setIsClockActive(true);
     setIsApprovedActive(false);
     setTimeout(() => {
-      // Elements that will be changed
       setIsClockActive(false);
       setIsApprovedActive(true);
 
-      // Delay
     }, 4000);
   }
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <GlobalStyles />
-      <Container>
-        <Header />
+    <Container>
+      <Header />
+      {
+        user.isAdmin ?
+          <PageError />
+          :
+          <Content>
+            <div className="card">
+              <div className="order">
+                <h2>Pedido</h2>
+                <div className="details">
+                  {
+                    cartBuy &&
+                    cartBuy.map(item => (
+                      <ListCard
+                        key={String(item.id)}
+                        data={item}
+                      />
+                    ))
+                  }
+                </div>
 
-        {
-          user.isAdmin ?
+                <div className="full">
+                  <p>Total: R$<span>{total}</span></p>
+                </div>
+              </div>
 
-            <PageError />
+              <PaymentCard>
+                <div className="paymentTop">
+                  <h2>Pagamento</h2>
 
-            :
+                  <div className="buttons">
+                    <button className={pixActive === true ? 'active' : ''} disabled={disabledButton} onClick={handlePaymentPix}>
+                      <img src={logoPix} alt="Logo Pix" />
+                      PIX
+                    </button>
 
-            <Content>
-
-              <ThemeSlider theme={theme} toggleTheme={toggleTheme} />
-
-              <div className="card-wrapper">
-
-                <div className="order-wrapper">
-                  <h2>Meu pedido</h2>
-                  <div className="details">
-                    {
-                      cart &&
-                      cart.map(item => (
-                        <OrderCard
-                          key={String(item.id)}
-                          data={item}
-                        />
-                      ))
-                    }
-                  </div>
-
-                  <div className="total">
-                    <p>Total: R$<span>{total}</span></p>
+                    <button className={creditActive === true ? 'active' : ''} disabled={disabledButton} onClick={handlePaymentCredit}>
+                      <img src={cardImg} alt="Logo Cartão de Crédito" />
+                      Crédito
+                    </button>
                   </div>
                 </div>
 
-                <PaymentCard>
-                  <div className="paymentHeader">
-                    <h2>Pagamento</h2>
+                <div className="paymentContent">
 
-                    <div className="buttons">
-                      <button className={pixActive === true ? 'active' : ''} disabled={disabledButton} onClick={handlePaymentPix}>
-                        <img src={logoPix} alt="Logo Pix" />
-                        PIX
-                      </button>
-
-                      <button className={creditActive === true ? 'active' : ''} disabled={disabledButton} onClick={handlePaymentCredit}>
-                        <img src={cardImg} alt="Logo Cartão de Crédito" />
-                        Crédito
-                      </button>
+                  {isCartVisible &&
+                    <div className="cart" id="cart">
+                      <img src={cartImg} alt="Carrinho de compras" />
+                      <p>Forma de pagamento</p>
                     </div>
-                  </div>
+                  }
 
-                  <div className="paymentBody">
-
-                    {isCartVisible &&
-                      <div className="cart" id="cart">
-                        <img src={cartImg} alt="Imagem do carrinho de compras" />
-                        <p>Selecione uma forma de pagamento acima!</p>
+                  {isPixVisible &&
+                    <div className={pixActive === false ? 'active' : ''} id="paymentPix">
+                      <div className="qrCodePayment">
+                        <img src={qrCode} alt="Imagem do QRCode" />
                       </div>
-                    }
 
-                    {isPixVisible &&
-                      <div className={pixActive === false ? 'active' : ''} id="paymentPix">
-                        <div className="qr">
-                          <img src={qrCode} alt="Imagem do QRCode" />
-                        </div>
+                      <Button
+                        title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
+                        disabled={loading}
+                        icon={BsReceipt}
+                        style={{ height: 50 }}
+                        className="finishPaymentButton"
+                        onClick={() => { handleCartPayment(cartBuy) }}
+                      />
+                    </div>
+                  }
 
-                        <Button
-                          title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
-                          disabled={loading}
-                          icon={BsReceipt}
-                          style={{ height: 56 }}
-                          className="finishPaymentButton"
-                          onClick={() => { handleFinishPayment(cart) }}
+                  {isCreditVisible &&
+
+                    <div className="paymentCredit" id="paymentCredit">
+                      <div className="inputs">
+                        <p>Número do Cartão</p>
+                        <Input
+                          placeholder="0000 0000 0000 0000"
+                          type="number"
+                          id="num"
+                          name="num"
+                          value={num}
+                          onChange={handleModificationNumber}
                         />
                       </div>
-                    }
 
-                    {isCreditVisible &&
-
-                      <div className="paymentCredit" id="paymentCredit">
-                        <div className="inputs">
-                          <p>Número do Cartão</p>
+                      <div className="valid">
+                        <div>
+                          <p>Validade</p>
                           <Input
-                            placeholder="0000 0000 0000 0000"
-                            type="number"
-                            id="num"
-                            name="num"
-                            value={num}
-                            onChange={handleNumChange}
+                            placeholder="MM/AA"
+                            type="text"
+                            id="date"
+                            name="date"
+                            maxLength="5"
                           />
                         </div>
 
-                        <div className="validTo">
-                          <div>
-                            <p>Validade</p>
-                            <Input
-                              placeholder="MM/AA"
-                              type="text"
-                              id="date"
-                              name="date"
-                              maxLength="5"
-                            />
-                          </div>
-
-                          <div>
-                            <p>CVC</p>
-                            <Input
-                              placeholder="***"
-                              type="number"
-                              id="cvc"
-                              name="cvc"
-                              value={cvc}
-                              onChange={handleCvcChange}
-                            />
-                          </div>
+                        <div>
+                          <p>CVC</p>
+                          <Input
+                            placeholder="***"
+                            type="number"
+                            id="cvc"
+                            name="cvc"
+                            value={cvc}
+                            onChange={handleModificationCvc}
+                          />
                         </div>
-
-                        <Button
-                          title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
-                          disabled={loading}
-                          icon={BsReceipt}
-                          style={{ height: 56 }}
-                          className="finishPaymentButton"
-                          onClick={() => { handleFinishPayment(cart) }}
-                        />
                       </div>
-                    }
 
-                    {isClockActive &&
+                      <Button
+                        title={loading ? "Finalizando pagamento" : "Finalizar pagamento"}
+                        disabled={loading}
+                        icon={BsReceipt}
+                        style={{ height: 56 }}
+                        className="finishPaymentButton"
+                        onClick={() => { handleFinishPayment(cartBuy) }}
+                      />
+                    </div>
+                  }
 
-                      <div className="clock" id="clock">
-                        <img src={clock} alt="Imagem do QRCode" />
-                        <p>Aguarde: Estamos processando o seu pagamento</p>
-                      </div>
-                    }
+                  {isClockActive &&
 
-                    {isApprovedActive &&
+                    <div className="clock" id="clock">
+                      <img src={clock} alt="Imagem do QRCode" />
+                      <p>Aguarde: Estamos processando o seu pagamento</p>
+                    </div>
+                  }
 
-                      <div className="approved" id="approved">
-                        <img src={checkCircle} alt="Imagem de pagamento aprovado" />
-                        <p>Oba! Pagamento aprovado! Em breve faremos a entrega!</p>
-                      </div>
-                    }
-                  </div>
-                </PaymentCard>
-              </div>
-            </Content>
-        }
-        <Footer />
-      </Container>
-    </ThemeProvider>
+                  {isApprovedActive &&
+
+                    <div className="approved" id="approved">
+                      <img src={checkCircle} alt="Imagem de pagamento aprovado" />
+                      <p>Pagamento aprovado</p>
+                    </div>
+                  }
+                </div>
+              </PaymentCard>
+            </div>
+          </Content>
+      }
+      <Footer />
+    </Container>
   );
 }

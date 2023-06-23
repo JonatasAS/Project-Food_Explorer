@@ -4,7 +4,7 @@ import { ButtonText } from "../ButtonText";
 
 import { useCartBuy } from '../../hooks/cartBuy';
 
-export function OrderCard({ data }) {
+export function ListCard({ data }) {
   const { handleRemoveFoodFromCart} = useCartBuy();
 
   return (
